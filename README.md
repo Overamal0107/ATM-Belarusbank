@@ -1,14 +1,13 @@
-// Библиотеки
 #include <stdio.h>
 #include <conio.h>
 #include <iostream>
 #include <string>
-#include <iomanip> //позволяет округлять  до десятичных знаков
+#include <iomanip> 
 
 using namespace std;
-// Объявляю класс BankAccount
+
 class BankAccount {
-    // Объявля. переменные
+
 private:
     string pinNum;
     char accType;
