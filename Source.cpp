@@ -1,4 +1,3 @@
-
 // Библиотеки
 #include <stdio.h>
 #include <conio.h>
@@ -58,22 +57,22 @@ void BankAccount::pinNumber()
         }
 
 
-        // Set pinNum to 1234
+        
         if (pinNum == "1234") {
             cout << "\n\n\t\t\t  Добро пожаловать в аккаунт!" << endl;
             // Display options menu if pinNumber is correct
             display();
 
-            // Verify if pinNum contains only intergers
+            
             while (!(cin >> pinNum)) {
-                // Reset the input
+                
                 cin.clear();
-                // Get string input
+                
                 while (cin.get() != '\n')
                     continue;
-                // Ask user to try again:
+                
                 cout << "\n\t\t\t   Пожалуйста, введите цифровой Pin-код:  ";
-            } // End while cin
+            } 
 
          // Разрешить пользователю повторно ввести pin-код 4 раза перед блокировкой учетной записи
         }
@@ -84,8 +83,7 @@ void BankAccount::pinNumber()
             { 
             system("pause");
             }
-            // If user enters any numeric invalid pin, allow to re-enter pin
-        }
+                    }
         else {
             cout << "\n\t\t\t   Неверный Pin-код \n";
             cout << "\t\t\t   Введите Pin-Код Еще Раз: \n";
