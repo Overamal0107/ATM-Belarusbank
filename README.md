@@ -28,5 +28,4 @@ This is a bank ATM program that handles ATM operations such as
 The Customer will need to enter their account number and ATM PIN to access Account Transactions.
 
 Bank account 998710002 and Pin code 7777
-
 *************************************************************************************************************************************************************************
