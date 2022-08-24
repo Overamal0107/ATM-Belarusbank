@@ -1,212 +1,246 @@
-// Библиотеки
-#include <stdio.h>
-#include <conio.h>
 #include <iostream>
-#include <string>
-#include <iomanip> //позволяет округлять  до десятичных знаков
+#include <stdlib.h>
+#include <conio.h>
+#include <iomanip>
+#include <thread>
+#include <chrono>
+
 
 using namespace std;
-// Объявляю класс BankAccount
-class BankAccount {
-    // Объявля. переменные
-private:
-    string pinNum;
-    char accType;
-    double balance;
-    double amount;
+int CustomerAccountNumber = 998710002;
+int pinNumber = 7777;
+int AccountBalance = 0;
 
-public:
-    // Конструктор банковского счета
-    BankAccount() {
-        // переменные баланса и суммы
-        balance = 0.0;
-        amount = 0.0;
-    }
 
-    //  прототипы функций
-    void pinNumber();
-    void accountType();
-    void balanceChecking();
-    void balanceSavings();
-    void deposit();
-    void withdraw();
-    void display();
-}; 
+bool ValidateCustomerDetails() {
 
-// // Функция для получения pin-кода от конечного пользователя
-void BankAccount::pinNumber()
-{
-    setlocale(LC_ALL, "RUS");
-    cout << "________________________________________________________________________________";
-    cout << "\n\t\t\t        БЕЛАРУСБАНК БАНКОМАТ" << endl;
-    cout << "________________________________________________________________________________";
-    //prompts end user for the pin number to access bank account
-    cout << "\n\t\t\t        ВВЕДИТЕ PIN-КОД: \n" << endl;
-    cout << "\t\t\t\t      ";
+    int InputAccountNumber = -1;
+    int InputPinNumber = -1;
+    bool isAccountInvalid = true;
+    bool isPinInvalid = true;
 
-    // For loop to allow user to re-enter pin 4 times if it is invalid
-    for (int i = 0; i <= 3; i++) {
-        // Mask pinNum with asterisks
-        char ch;
-        cout << setw(1); // Output formatting space
-        ch = _getch();
-        while (ch != 13) {
-            pinNum.push_back(ch); //push pinNum and replace with asterisk
-            cout << '*';
-            ch = _getch();
+    cout << "\t\t\t\t\t\tБЕЛАРУСБАНК" << endl;
+    cout << "\n\n\t\t\t\t\t\|Visa|\t|Mastercard|\t|MIR|" << endl;
+
+    while (isAccountInvalid) {
+
+        cout << " \nПожалуйста, вставьте банковску карту: ";
+        cin >> InputAccountNumber;
+
+        if (InputAccountNumber == CustomerAccountNumber) {
+            isAccountInvalid = false;
         }
-
-
-        
-        if (pinNum == "1234") {
-            cout << "\n\n\t\t\t  Добро пожаловать в аккаунт!" << endl;
-            // Display options menu if pinNumber is correct
-            display();
-
-            
-            while (!(cin >> pinNum)) {
-                
-                cin.clear();
-                
-                while (cin.get() != '\n')
-                    continue;
-                
-                cout << "\n\t\t\t   Пожалуйста, введите цифровой Pin-код:  ";
-            } 
-
-         // Разрешить пользователю повторно ввести pin-код 4 раза перед блокировкой учетной записи
-        }
-        else if (i >= 3) {
-            cout << "\n\t\t\t Ваша учетная запись заблокирована!\n";
-            cout << "\t\t\t   Вы достигли предела попыток." << endl;
-           
-            { 
-            system("pause");
-            }
-                    }
         else {
-            cout << "\n\t\t\t   Неверный Pin-код \n";
-            cout << "\t\t\t   Введите Pin-Код Еще Раз: \n";
-            cout << "\t\t\t\t   ";
-            cin >> pinNum;
+            cout << " \nНеверный Номер Счета! Пробовать снова. " << endl;
         }
     }
-}
+    int RetryCount = 3;
+    while (isPinInvalid && RetryCount) {
 
-// Функция для получения типа учетной записи от конечного пользователя
-void BankAccount::accountType() {
-    cout << "\n\t\t\t Select Account Type:\n";
-    cout << "\t\t\t Проверка 'C' or Сбережения 'S': ";
-    cin >> accType;
+        cout << " Введите свой PIN-код : ";
+        cin >> InputPinNumber;
 
-   
-    if (accType == 'C' || accType == 'c') {
-        cout << "\t\t\t================================" << endl << endl;
-        cout << "\t\t\t\tТекущий счет" << endl << endl;
-        cout << "\t\t\t================================" << endl << endl;
-        
-    }
-    else if (accType == 'S' || accType == 's') {
-        cout << "\t\t\t================================" << endl << endl;
-        cout << "\t\t\t\tСберегательный счет" << endl << endl;
-        cout << "\t\t\t================================" << endl << endl;
-    }
-    else {
-        cout << "\t\t\tНедопустимый Тип учетной записи.\n";
-        cout << "\t\t\tВыберите Тип учетной записи: 'C' or 'S': ";
-        cin >> accType;
-    }
-}
-
-
-void BankAccount::deposit() {
-    cout << "\n\t\t\t\t    ДИПОЗИТ\n";
-    cout << "\t\t\t   Введите Сумму Вывод $";
-    cin >> amount;
-    cout << "\n\t\t\t========ЧЕК========" << endl << endl;
-    cout << setprecision(2) << fixed; //round decimal 2 places
-    cout << "\t\t\t Внесенная Сумма = $" << amount << endl << endl;
-    balance += amount;
-    cout << "\t\t\t Новый баланс $" << balance << endl << endl;
-    cout << "\t\t\t===============================" << endl;
-}
-
-
-void BankAccount::withdraw() {
-    cout << "\n\t\t\t\t    ВЫВОСТИ\n";
-    cout << "\t\t\t   Введите Сумму Вывода $";
-    cin >> amount;
-    cout << "\n\t\t\t=======ЧЕК==========" << endl << endl;
-    cout << "\t\t\t Снятая сумма = $" << amount << endl << endl;
-    balance -= amount;
-    cout << "\t\t\t Новый Баланс $" << balance << endl << endl;
-    cout << "\t\t\t=================================" << endl;
-}
-
-//Функция отображения текущего баланса счета
-void BankAccount::balanceChecking() {
-    cout << "\n\t\t\t=====Текущий Баланс Счета=====";
-    cout << "\n\t\t\t Текущий счет # xxxxxxxx4567\n";
-    //Баланс = 10000;
-    cout << "\n\t\t\t Баланс = $" << balance << endl;
-    cout << "\n\t\t\t==================================" << endl;
-}// // Завершить функцию проверки баланса
-
-// Функция отображения баланса сберегательного счета
-void BankAccount::balanceSavings() {
-    cout << "\n\t\t\t=====Остаток на Сберегательном счете=====";
-    cout << "\n\t\t\t Сберегательный счет # xxxxxxxx8901\n";
-    //остаток = 25000;
-    cout << "\n\t\t\t Баланс = $" << balance << endl;
-    cout << "\n\t\t\t=================================" << endl;
-}// // Функция экономии конечного остатка
-
-// Отображение меню параметров после ввода pin-кода
-void BankAccount::display() {
-    int options = 1;
-    // // Пока параметры не равны нулю, разрешить конечному пользователю выбрать опцию для доступа к банковскому счету
-    while (options != 0) {
-        cout << "\n\t\t\t  1. Выберите Тип учетной записи\n";
-        cout << "\t\t\t  2. Депозит\n";
-        cout << "\t\t\t  3. Вывости\n";
-        cout << "\t\t\t  4. Текущий Баланс Счета\n";
-        cout << "\t\t\t  5. Остаток на Сберегательном счете\n";
-        cout << "\t\t\t  0. Завершение Транзакций\n";
-        cout << "\n\t\t\t\t\t";
-        cin >> options;
-
-        //Оператор переключения для вызова функций на основе выбранного конечным пользователем параметра
-        switch (options) {
-        case 0: pinNumber();
-            break;
-        case 1: accountType();
-            break;
-        case 2: deposit();
-            break;
-        case 3: withdraw();
-            break;
-        case 4: balanceChecking();
-            break;
-        case 5: balanceSavings();
-            break;
-        default: cout << "\n\t\t\t   Недопустимая опция" << endl;
+        if (InputPinNumber == pinNumber) {
+            isPinInvalid = false;
         }
+        else {
+            RetryCount--;
+            if (RetryCount)
+                cout << "Неверный PIN-код ! Пробовать снова." << endl;
+            else
+            {
+                cout << " \nВаша учетная запись заблокирована! Лимит попыток ! Обратитесь в банк. " << endl;
+                return false;
+            }
+
+        }
+
     }
+
+    return true;
+
 }
 
-int main()
-{
-    //Изменение цвета текста на экране
-    system("color 0b");
-    // Объявить объект BankAccount
-    BankAccount bank;
-    //Функции вызова
-    bank.pinNumber();
-    bank.accountType();
-    bank.balanceChecking();
-    bank.balanceSavings();
-    bank.deposit();
-    bank.withdraw();
+int DisplayMenu() {
+
+    int UserInputOption = -1;
+
+    cout << " \nДобро пожаловать в БЕЛАРУСБАНК!! Пожалуйста, выберите операцию, чтобы продолжить " << endl;
+    cout << "    1 - Остаток на счету" << endl;
+    cout << "    2 - Снять Наличные" << endl;
+    cout << "    3 - Внесите Наличные" << endl;
+    cout << "    4 - Олаты телефона" << endl;
+    cout << "    5 - Выход" << endl;
+    cout << " Выберите опцию, чтобы продолжить: " << endl;
+    cin >> UserInputOption;
+
+    return UserInputOption;
+
+}
+
+void DisplayAccountBalance() {
+
+    cout << " Баланс Вашего счета составляет: " << endl;
+    cout <<  AccountBalance << " BYN " << endl;
+
+}
+
+void WithDrawMoneyFromAccount() {
+
+    int UserInputOption = -1;
+    int valueToWithdraw = 0;
+    long CustomerRequest = 0;
+    bool isNotFinished = true;
+
+    do {
+
+        cout << "Варианты вывода средств:" << endl;
+        cout << "1 -   5 BYN" << endl;
+        cout << "2 -  10 BYN" << endl;
+        cout << "3 -  20 BYN" << endl;
+        cout << "4 -  50 BYN" << endl;
+        cout << "5 - 100 BYN" << endl;
+        cout << "6 - Отменить транзакцию" << endl;
+        cout << "7 - Другая Сумма" << endl;
+        cout << " Выберите вариант вывода средств (1-7) " << endl;
+
+        cin >> UserInputOption;
+        switch (UserInputOption) {
+        case 1:
+            valueToWithdraw = 5;
+            break;
+        case 2:
+            valueToWithdraw = 10;
+            break;
+        case 3:
+            valueToWithdraw = 20;
+            break;
+        case 4:
+            valueToWithdraw = 50;
+            break;
+        case 5:
+            valueToWithdraw = 100;
+            break;
+        case 6:
+            isNotFinished = false;
+            break;
+        case 7:
+            cout << " Введите сумму для вывода: " << endl;
+            cin >> CustomerRequest;
+            valueToWithdraw = CustomerRequest;
+            isNotFinished = false;
+            break;
+        default:
+            cout << "Недопустимый вариант! Пробовать снова." << endl;
+            break;
+        }
+
+        if (valueToWithdraw != 0) {
+            if (valueToWithdraw > AccountBalance) {
+                cout << " \nПрости!! Баланс Вашего Счета составляет всего BYN " << AccountBalance << ". Вы не можите вывети  " << valueToWithdraw << " BYN " << endl;
+            }
+            else {
+                AccountBalance = AccountBalance - valueToWithdraw;
+                isNotFinished = false;
+            }
+            valueToWithdraw = 0;
+        }
+
+    } while (isNotFinished);
+
+}
+
+void DepositMoneyInAccount() {
+
+    int UserInputOption = -1;
+    bool isNotFinished = true;
+    long depositAmount = 0;
+
+    do {
+
+        cout << " Варианты Внесения Наличных Денег. Пожалуйста, Введите Свой Выбор" << endl;
+        cout << " 1 -   5 BYN " << endl;
+        cout << " 2 -  10 BYN " << endl;
+        cout << " 3 -  20 BYN " << endl;
+        cout << " 4 -  50 BYN " << endl;
+        cout << " 5 - 100 BYN " << endl;
+        cout << " 6 - Отменить транзакцию " << endl;
+        cout << " 7 - Другая сумма" << endl;
+        cout << " Выберите вариант пополнения счета (1-7) " << endl;
+
+        cin >> UserInputOption;
+        switch (UserInputOption) {
+        case 1:
+            AccountBalance = AccountBalance + 20;
+            isNotFinished = false;
+            break;
+        case 2:
+            AccountBalance = AccountBalance + 40;
+            isNotFinished = false;
+            break;
+        case 3:
+            AccountBalance = AccountBalance + 60;
+            isNotFinished = false;
+            break;
+        case 4:
+            AccountBalance = AccountBalance + 100;
+            isNotFinished = false;
+            break;
+        case 5:
+            AccountBalance = AccountBalance + 200;
+            isNotFinished = false;
+            break;
+        case 6:
+            isNotFinished = false;
+            break;
+        case 7:
+            cout << "Пожалуйста, Введите Сумму для внесения депозита:" << endl;
+            cin >> depositAmount;
+            AccountBalance = AccountBalance + depositAmount;
+            isNotFinished = false;
+            break;
+        default:
+            cout << " Недопустимый вариант! Пробовать снова." << endl;
+            break;
+        }
+
+    } while (isNotFinished);
+
+}
+
+int main(void) {
+
+    system("color 2");
+    setlocale(LC_ALL, "Russian");
+
+    if (ValidateCustomerDetails()) {
+
+        int isNotFinished = true;
+
+        do {
+
+            switch (DisplayMenu()) {
+            case 1:
+                DisplayAccountBalance();
+                break;
+            case 2:
+                WithDrawMoneyFromAccount();
+                break;
+            case 3:
+                DepositMoneyInAccount();
+                break;
+            case 4:
+                isNotFinished = false;
+                break;
+            default:
+                cout << " Недопустимый вариант! Пробовать снова. " << endl;
+                break;
+            }
+
+        } while (isNotFinished);
+
+    }
 
     return 0;
+
 }
