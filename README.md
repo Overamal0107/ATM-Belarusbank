@@ -3,9 +3,9 @@
 # ATM-Belarusbank
 Это программа банковского банкомата, которая обрабатывает операции банкомата, такие как:
 
-1. Проверьте Баланс Счета.
+1.Проверьте Баланс Счета.
 
-2. Внесите деньги на Счет
+2.Внесите деньги на Счет
 
 3.Снимите деньги со Счета.
 
@@ -17,11 +17,11 @@
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 This is a bank ATM program that handles ATM operations such as
 
-1. Check The Account Balance.
+1.Check The Account Balance.
 
 2.Deposit money to the Account.
 
-3. Withdraw money from the Account.
+3.Withdraw money from the Account.
 
 4.Obile operator payment
 
