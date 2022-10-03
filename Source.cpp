@@ -1,34 +1,42 @@
-#include <iostream>
-
-#include <stdlib.h>
-
-#include <conio.h>
-
 #include <iomanip>
 
 #include <thread>
 
 #include <chrono>
 
+#include <fstream>
+
 
 using namespace std;
-int CustomerAccountNumber = 998710002;
+int CustomerAccountNumber = 998710002 ;
 int pinNumber = 7777;
 int AccountBalance = 20000;
 
-/*
-int CustomerAccountNumber = 998710005;
-int pinNumber = 1703;
-int AccountBalance2 = 2000;
+class BankAccount
+{
 
-int CustomerAccountNumber = 998710996;
-int pinNumber = 8525;
-int AccountBalance3 = 10000;
+    int size; // размер счета
+    char number[20];// номер счёта
+    char serial[10];// серия паспорта 
+    char currency;// валюта
 
-int CustomerAccountNumber = 998777458;
-int pinNumber = 1111;
-int AccountBalance4 = 5000;
-*/
+public:
+    void OpenAccount(); // открытие счета
+    void Get();// снятие средств
+    void Set();// пополнение 
+    void OutPut(); // состояние счёта
+};
+void BankAccount::OpenAccount()
+{
+    cout << "Введите номер счета:";cin >> number;
+    cout << "Имя:"; cin >> number;
+    cout << "Серия паспорта :"; cin >> serial;
+    cout << "Выберете валюту($,E,R,G):"; cin >> currency;
+    cout << "Сколько желаете внести ? "; cin >> size;
+    cout << "Счёт открыт!!!" << endl << endl;
+  
+}
+
 
 bool ValidateCustomerDetails() {
 
@@ -44,7 +52,6 @@ bool ValidateCustomerDetails() {
 
         cout << " \nПожалуйста, вставьте банковску карту: ";
         cin >> InputAccountNumber;
-
         if (InputAccountNumber == CustomerAccountNumber) {
             isAccountInvalid = false;
         }
@@ -310,9 +317,13 @@ void Phonebillpayment() {
 
 }
 
-int main(void) {
+int main(void) 
+{
     setlocale(LC_ALL, "Russian");
     system("color 2");
+    BankAccount ac;
+    ac.OpenAccount();
+   
 
     cout << " Курс волют:" << "\n";
     float BYN_RUB_kurs = 3.3000;
@@ -357,3 +368,4 @@ int main(void) {
     return 0;
 
 }
+
