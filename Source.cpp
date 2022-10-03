@@ -14,7 +14,21 @@
 using namespace std;
 int CustomerAccountNumber = 998710002;
 int pinNumber = 7777;
-int AccountBalance = 1000;
+int AccountBalance = 20000;
+
+/*
+int CustomerAccountNumber = 998710005;
+int pinNumber = 1703;
+int AccountBalance2 = 2000;
+
+int CustomerAccountNumber = 998710996;
+int pinNumber = 8525;
+int AccountBalance3 = 10000;
+
+int CustomerAccountNumber = 998777458;
+int pinNumber = 1111;
+int AccountBalance4 = 5000;
+*/
 
 bool ValidateCustomerDetails() {
 
@@ -73,7 +87,8 @@ int DisplayMenu() {
     cout << "    2 - Снять Наличные" << endl;
     cout << "    3 - Внесите Наличные" << endl;
     cout << "    4 - Олаты телефона" << endl;
-    cout << "    5 - Выход" << endl;
+    cout << "    5 - Перевод денег " << endl;
+    cout << "    6 - Выход" << endl;
     cout << " Выберите опцию, чтобы продолжить: " << endl;
     cin >> UserInputOption;
 
@@ -296,19 +311,18 @@ void Phonebillpayment() {
 }
 
 int main(void) {
-
+    setlocale(LC_ALL, "Russian");
     system("color 2");
 
-    /*int Enter_BYN = 100;
-    float BYN_RUB_kurs = Enter_BYN / 3.3000;
-    cout << "BYN RUB kurs:" << BYN_RUB_kurs << "\n";
-    float BYN_USD_kurs = Enter_BYN / 2.3700;
-    cout << "BYN USD kurs:" << BYN_USD_kurs << "\n";
-    float BYN_EU_kurs = Enter_BYN / 2.2700;
-    cout << "BYN EU kurs:" << BYN_EU_kurs << "\n";*/
+    cout << " Курс волют:" << "\n";
+    float BYN_RUB_kurs = 3.3000;
+    cout << " RUB kurs:" << BYN_RUB_kurs << "\n";
+    float BYN_USD_kurs = 2.3700;
+    cout << " USD kurs:" << BYN_USD_kurs << "\n";
+    float BYN_EU_kurs =  2.2700;
+    cout << " EUR kurs:" << BYN_EU_kurs << "\n";
 
-    setlocale(LC_ALL, "Russian");
-
+ 
     if (ValidateCustomerDetails()) {
 
         int isNotFinished = true;
