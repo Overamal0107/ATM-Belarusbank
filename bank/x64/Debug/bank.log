@@ -1,6 +1,0 @@
-﻿  bank.cpp
-C:\Users\aabla\source\repos\bank\bank\account.h(31,23): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-C:\Users\aabla\source\repos\bank\bank\bank.h(40,40): warning C4305: инициализация: усечение из "double" в "float"
-C:\Users\aabla\source\repos\bank\bank\bank.h(42,40): warning C4305: инициализация: усечение из "double" в "float"
-C:\Users\aabla\source\repos\bank\bank\bank.h(44,39): warning C4305: инициализация: усечение из "double" в "float"
-  bank.vcxproj -> C:\Users\aabla\source\repos\bank\x64\Debug\bank.exe
