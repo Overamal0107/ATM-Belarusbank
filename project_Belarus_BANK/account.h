@@ -16,7 +16,7 @@ namespace Bankomat {
             int pinNumber2 = 8888;
             int InputAccountNumber = -1;
             int InputPinNumber = -1;
-            char password[5]; // пин код
+            char password[5]; // РїРёРЅ РєРѕРґ
             char user_account[13];
             long money;
          bool isAccountInvalid = true;
@@ -29,7 +29,7 @@ namespace Bankomat {
         private:
         }; // class accoun
 
-        void account::Open_account() // Банковская карточка
+        void account::Open_account() // Р‘Р°РЅРєРѕРІСЃРєР°СЏ РєР°СЂС‚РѕС‡РєР°
 
         {
             int k;
@@ -38,20 +38,20 @@ namespace Bankomat {
                 user_account[i] = rand() % 10 + 48;
             }
             user_account[12] = '\0';
-            cout << "Ваш счет " << user_account << endl;
+            cout << "Р’Р°С€ СЃС‡РµС‚ " << user_account << endl;
             k = rand() % 10000;
             _itoa(k, password, 10);
             password[4] = '\0';
-            cout << "Ваш новый пароль " << password << endl;
-            cout << "Сумма денег, которую вы положите на свой счет?" << endl;
+            cout << "Р’Р°С€ РЅРѕРІС‹Р№ РїР°СЂРѕР»СЊ " << password << endl;
+            cout << "РЎСѓРјРјР° РґРµРЅРµРі, РєРѕС‚РѕСЂСѓСЋ РІС‹ РїРѕР»РѕР¶РёС‚Рµ РЅР° СЃРІРѕР№ СЃС‡РµС‚?" << endl;
             cin >> money;
         }
 
         void account::Show_info()
 
         {
-            cout << "Ваш счет " << user_account << endl;
-            cout << "Баланс " << money << endl;
+            cout << "Р’Р°С€ СЃС‡РµС‚ " << user_account << endl;
+            cout << "Р‘Р°Р»Р°РЅСЃ " << money << endl;
         }
 
         long& account::Work_with_money(int m = 0) {
@@ -60,11 +60,11 @@ namespace Bankomat {
         }
 
         account::account() {
-            cout << "\t\t\t\tБЕЛАРУСБАНК" << endl;
+            cout << "\t\t\t\tР‘Р•Р›РђР РЈРЎР‘РђРќРљ" << endl;
             cout << "\n\n\t\t\t" <<
                 "|Visa|\t|Mastercard|\t|MIR|" << endl;
             cout << "\n\n" <<
-                "Получение Карты " <<
+                "РџРѕР»СѓС‡РµРЅРёРµ РљР°СЂС‚С‹ " <<
                 "\n" <<
                 endl;
         }
@@ -72,24 +72,24 @@ namespace Bankomat {
         bool account::Enter_to_your_account() {
             char tries[5];
             int times = 0;
-            cout << "Введите пароль, если вы хотите использовать свою учетную запись" <<
+            cout << "Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ, РµСЃР»Рё РІС‹ С…РѕС‚РёС‚Рµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СЃРІРѕСЋ СѓС‡РµС‚РЅСѓСЋ Р·Р°РїРёСЃСЊ" <<
                 endl;
 
             while (times < 3) {
                 cin >> tries;
 
                 if (strcmp(tries, password) == 0) {
-                    cout << "Добро пожаловать " << endl;
+                    cout << "Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ " << endl;
                     return 1;
                 }
                 else
-                    cout << "Ошибка повторите попытку" << endl;
+                    cout << "РћС€РёР±РєР° РїРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ" << endl;
                 times++;
             }
 
             if (times == 3)
-                cout << "Ошибка при попытке ввести пароль 3 раза, ваш аккаунт "
-                "заблокирован ! Обратитесь в банк." <<
+                cout << "РћС€РёР±РєР° РїСЂРё РїРѕРїС‹С‚РєРµ РІРІРµСЃС‚Рё РїР°СЂРѕР»СЊ 3 СЂР°Р·Р°, РІР°С€ Р°РєРєР°СѓРЅС‚ "
+                "Р·Р°Р±Р»РѕРєРёСЂРѕРІР°РЅ ! РћР±СЂР°С‚РёС‚РµСЃСЊ РІ Р±Р°РЅРє." <<
                 endl;
             return 0;
         }
