@@ -7,10 +7,7 @@
 #include "client.h"
 #include<functional>
 #include <wincrypt.h>
-
-const double DOLLAR = 2.3700;
-const double EUROS = 2.2700;
-const double RUBL = 3.3000;
+#include <cassert>
 
 
 namespace Bank
@@ -21,14 +18,20 @@ namespace Bank
     {
     public:
 
+        const double DOLLAR = 2.3700;
+        const double EUROS = 2.2700;
+        const double RUBL = 3.3000;
+
         Account::Client::client* User;
         bank();
         ~bank();
+
         void Menu();
         void currency();
 
-
     };  //class bank 
+
+
     bank::bank()
     {
 
@@ -52,10 +55,10 @@ namespace Bank
         int equivD = 0;
         double equivE = 0.0;
         int IDbankomat = 198547;
-        int telefon;
+        int telefon = 50;
         double rand = 0.0;
-        long  check;
         long money;
+
         while (1)
         {
             bool OK = 1;
@@ -72,7 +75,7 @@ namespace Bank
             cout << "" << " EUR kurs:" << BYN_EU_kurs << "\n";
 
             cout << "\n" << " Выберите, операцию " << endl;
-            cout << " 1: Остаток " << endl << " 2: Снятие наличных  " << endl << " 3: Олаты телефона   " << endl << " 4: Первод на карту " << endl << " 5: Выход " << endl;
+            cout << " 1: Остаток " << endl << " 2: Снятие наличных  " << endl << " 3: Оплаты телефона   " << endl << " 4: Первод на карту " << endl << " 5: Выход " << endl;
             cin >> key;
             while ((key < 0) || (key >= 6))
                 cin >> key;
@@ -84,7 +87,7 @@ namespace Bank
 
                 system("CLS");
                 User->New->Show_info();
-                cout << "Вы хотите вернуться в меню ? \n\t\n 1: Меню;\t\n 2: Выход" << endl;
+                cout << "Вы хотите вернуться в меню ? \n\t\n 1: Меню\t\n 2: Выход" << endl;
 
                 while (OK)
                 {
@@ -105,6 +108,8 @@ namespace Bank
 
             case 2: // Остаток/Добавление новой валюты банкнот, в которой банкомат может выдавать бумажные деньги
                 currency();
+                break;
+
             case 3: // Оплата телефона 
                 cout << "Номер телефона : " << endl;
                 cin >> telefon;
@@ -118,7 +123,8 @@ namespace Bank
                 }
                 else User->New->Work_with_money(key);
                 cout << "Деньги зачислены  \n" << endl;
-                cout << "Вы хотите вернуться в меню ? \n\t\n 1: Меню; \t\n 2: Выход" << endl;
+                cout << "Теперь у вас  " << User->New->Work_with_money() << " BYN на вашем счету" << endl;
+                cout << "Вы хотите вернуться в меню ? \n\t\n 1: Меню \t\n 2: Выход" << endl;
                 while (OK)
                 {
                     cin >> key;
@@ -137,66 +143,181 @@ namespace Bank
                 break;
 
             case 4:
-                       /* Добавление банков посредников, через которые проходит операция пользователя.
-                       Например, банкомат принадлежит банку Б1, а банковская карточка принадлежит банку Б2,
-                       но чтобы обратиться из Б1 в Б2, нужно сделать запрос через банк Б3*/
-
                 cout << "\nID Банкомата БеларусБанк [" << IDbankomat << "]" << endl;
-                cout << "Счет :" << User->New->user_account << endl;
-                cout << "\nНа какой счет хотите перевести деньги :" << endl;
-                cin >> check;
-                cout << "Через какой банк хотите совершить перевод? \n\t\n 1: Альфабанк \t\n 2: Белинвестбанк" << endl;
+                cout << " \nПожалуйста, вставьте банковску карту: " << endl;
                 while (OK)
                 {
                     cin >> key;
-                    if (money == 1) {
-                        OK = 0;
-                        continue;
-                    }
-                    else if (money == 2)
+
+                    if (key == 4444555)
+
                     {
-                        cout << "Хорошего дня" << endl;
-                        exit(0);
+                        cout << " КАРТ АЛЬФАБАНКА !!!!! " << endl;
+                        int RetryCount = 3;
+                        while (User->New->isPinInvalid && RetryCount) {
+
+                            cout << " Введите свой PIN-код : ";
+                            cin >> User->New->InputPinNumber;
+
+                            if (User->New->InputPinNumber == User->New->pinNumber1) {
+                                User->New->isPinInvalid = false;
+                            }
+                            else {
+                                RetryCount--;
+                                if (RetryCount)
+                                    cout << "Неверный PIN-код ! Пробовать снова." << endl;
+                                else {
+                                    cout << " \nВаша учетная запись заблокирована! Лимит попыток ! Обратитесь в банк. " << endl;
+
+                                }
+
+                            }
+
+                        }
+
+                        cout << "\nПЕРЕВОД ЧЕРЕЗ БЕЛАРУССБАНК НЕВОЗМОЖЕН ВЫБЕРИТЕ ДРУГОЙ БАНК !" << endl;
+                        cout << "Через какой банк хотите совершить перевод? \n\t\n 1: Белинвестбанк \t\n 2: Технобанк" << endl;
+                        while (OK)
+                        {
+                            cin >> key;
+
+                            if (key == 1)
+                            {
+                                cout << "\n[ АЛЬФАБАНК ]" << endl;
+                                cout << "\nКакую сумму хотите перевести" << endl;
+                                cin >> money;
+                                if (User->New->Work_with_money() < money)
+                                {
+                                    cout << "У вас недостаточно денег, выполнить перевод ." << endl;
+
+                                    Sleep(1000);
+                                    OK = 0;
+                                    continue;
+                                }
+                                else User->New->Work_with_money(money);
+
+                                cout << "Теперь у вас  " << User->New->Work_with_money() << " BYN на вашем счету" << endl;
+
+                                cout << "Вы хотите вернуться в меню ? \n\t\n 1: Меню \t\n 2: Выход" << endl;
+                                while (OK)
+                                {
+                                    cin >> key;
+                                    if (key == 1) {
+                                        OK = 0;
+                                        continue;
+                                    }
+                                    else if (key == 2)
+                                    {
+                                        cout << "Хорошего дня" << endl;
+                                        exit(0);
+                                    }
+                                    else
+                                        cout << "Ошибка/Попробуйте еще раз" << endl;
+                                }
+                            }
+                            else if (key == 2)
+
+                            {
+                                cout << "\n[ ТЕХНОБАНК ]" << endl;
+                                cout << "\nКакую сумму хотите перевести" << endl;
+                                cin >> money;
+                                if (User->New->Work_with_money() < money)
+                                {
+                                    cout << "У вас недостаточно денег, выполнить перевод ." << endl;
+
+                                    Sleep(1000);
+                                    OK = 0;
+                                    continue;
+                                }
+                                else User->New->Work_with_money(money);
+
+                                cout << "Теперь у вас " << User->New->Work_with_money() << " BYN на вашем счету" << endl;
+                                cout << "Вы хотите вернуться в меню ? \n\t\n 1: Меню \t\n 2: Выход" << endl;
+                                while (OK)
+                                {
+                                    cin >> key;
+                                    if (key == 1) {
+                                        OK = 0;
+                                        continue;
+                                    }
+                                    else if (key == 2)
+                                    {
+                                        cout << "Хорошего дня" << endl;
+                                        exit(0);
+                                    }
+                                    else
+                                        cout << "Ошибка/Попробуйте еще раз" << endl;
+                                }
+
+
+                            }
+
+
+                        }
                     }
-                    else
-                        cout << "Ошибка/Попробуйте еще раз" << endl;
-                }
-                cin>>IDbankomat;
-                cout << "\nКакую сумму хотите перевести" << endl;
-                cin >> money;
-                if (User->New->Work_with_money() < money)
-                {
-                    cout << "У вас недостаточно денег, выполнить перевод ." << endl;
 
-                    Sleep(1000);
+                    else if (key == 7777666)
 
-                    continue;
-                }
-                else User->New->Work_with_money(money);
-
-                cout << "Теперь у вас " << User->New->Work_with_money() << "BYN на вашем счету" << endl;
-
-                cout << "Вы хотите вернуться в меню? \n\t\n 1: Меню ;\t\n 2: Выход" << endl;
-                while (OK)
-                {
-                    cin >> key;
-                    if (money == 1) {
-                        OK = 0;
-                        continue;
-                    }
-                    else if (money == 2)
                     {
-                        cout << "Хорошего дня" << endl;
-                        exit(0);
+                        cout << " КАРТА БЕЛИНВЕСТБАНКА!!!!! " << endl;
+                        int RetryCount = 3;
+                        while (User->New->isPinInvalid && RetryCount) {
+
+                            cout << " Введите свой PIN-код : ";
+                            cin >> User->New->InputPinNumber;
+
+                            if (User->New->InputPinNumber == User->New->pinNumber2) {
+                                User->New->isPinInvalid = false;
+                            }
+                            else {
+                                RetryCount--;
+                                if (RetryCount)
+                                    cout << "Неверный PIN-код ! Пробовать снова." << endl;
+                                else {
+                                    cout << " \nВаша учетная запись заблокирована! Лимит попыток ! Обратитесь в банк. " << endl;
+
+                                }
+
+                            }
+
+                        }
+                        ///////
+                        cout << "\n[ БЕЛАРУСБАНК ]" << endl;
+                        cout << "\nКакую сумму хотите перевести" << endl;
+                        cin >> money;
+                        if (User->New->Work_with_money() < money)
+                        {
+                            cout << "У вас недостаточно денег, выполнить перевод ." << endl;
+
+                            Sleep(1000);
+                            OK = 0;
+                            continue;
+                        }
+                        else User->New->Work_with_money(money);
+
+                        cout << "Теперь у вас " << User->New->Work_with_money() << " BYN на вашем счету" << endl;
+                        cout << "Вы хотите вернуться в меню ? \n\t\n 1: Меню \t\n 2: Выход" << endl;
+                        while (OK)
+                        {
+                            cin >> key;
+                            if (key == 1) {
+                                OK = 0;
+                                continue;
+                            }
+                            else if (key == 2)
+                            {
+                                cout << "Хорошего дня" << endl;
+                                exit(0);
+                            }
+                            else
+                                cout << "Ошибка/Попробуйте еще раз" << endl;
+
+
+
+
+                        }
                     }
-                    else
-                        cout << "Ошибка/Попробуйте еще раз" << endl;
                 }
-                break;
-            case 5: // Выход 
-                cout << "Хорошего дня" << endl;
-                exit(0);
-                break;
             }
         }
 
@@ -218,24 +339,9 @@ namespace Bank
             system("CLS");
 
             cout << " 1: BYN " << endl << " 2: USD  " << endl << " 3: EUR  " << endl << " 4: RUB  " << endl;
-            cout << "\nВы хотите вернуться в меню? \n\t\n 1: Меню \t\n 2: Выход" << endl;
-            while (OK)
-            {
-                cin >> key;
-                if (key == 1) {
-                    OK = 0;
-                    continue;
-                }
-                else if (key == 2)
-                {
-                    cout << "Хорошего дня" << endl;
-                    exit(0);
-                }
-                else
-                    cout << "Ошибка/Попробуйте еще раз" << endl;
-            }
+            cout << "\nВы хотите вернуться в меню? \n\t\n 5: Меню \t\n 6: Выход" << endl;
             cin >> key;
-            while ((key < 0) || (key >= 5))
+            while ((key < 0) || (key >= 7))
                 cin >> key;
 
             switch (key)
@@ -324,7 +430,7 @@ namespace Bank
 
                 }
                 else User->New->Work_with_money(equivD);
-                cout << "Теперь у вас " << User->New->Work_with_money() << "BYN на вашем счету" << endl;
+                cout << "Теперь у вас " << User->New->Work_with_money() << " BYN на вашем счету" << endl;
 
                 cout << "Вы хотите вернуться в меню? \n\t\n 1: Меню \t\n 2: Выход" << endl;
                 while (OK)
@@ -380,9 +486,20 @@ namespace Bank
                 }
 
 
-            }
 
             }
+            case 5:
+            {
+                Menu();
+            }
+            case 6:
+            {
+                cout << "Хорошего дня" << endl;
+                exit(0);
+            }
+            }
+
+
             }
 
 
@@ -391,5 +508,6 @@ namespace Bank
 
 
     }// void::bank::currenty()
+
 }// namespace Bank
 
